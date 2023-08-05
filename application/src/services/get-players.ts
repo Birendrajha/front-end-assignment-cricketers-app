@@ -1,6 +1,6 @@
 import data from "./players";
 
-export type TMayBe<T> = T | null | undefined;
+export type TMayBe<T> = T | undefined;
 
 export type TPlayer = {
   id?: TMayBe<string>;
@@ -10,6 +10,7 @@ export type TPlayer = {
   points?: TMayBe<number>;
   rank?: TMayBe<number>;
   dob?: TMayBe<number>;
+  profilePic?: TMayBe<string>;
 };
 
 const getPlayers = (): Promise<TPlayer[]> => {
