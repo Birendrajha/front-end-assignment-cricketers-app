@@ -6,6 +6,7 @@ export const usePlayersHooks = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [selectedFilter, setSelectedFilter] = useState<string>(Filter.All);
   const [playerList, setPlayerList] = useState<TPlayer[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<TPlayer>();
   const onChangeSearchText = (seartcText: string) => {
     setSearchText(seartcText);
   };
@@ -96,5 +97,7 @@ export const usePlayersHooks = () => {
     setSelectedFilter,
     _getFilteredPlayersList,
     resetFilter,
+    selectedPlayer,
+    setSelectedPlayer,
   };
 };

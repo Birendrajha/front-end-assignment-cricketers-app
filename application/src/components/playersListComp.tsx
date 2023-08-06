@@ -14,13 +14,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useNavigate } from "react-router-dom";
 
-export const PlayerListComp = ({ playerList }: { playerList: TPlayer[] }) => {
+export const PlayerListComp = ({
+  playerList,
+  onNavigate,
+}: {
+  playerList: TPlayer[];
+  onNavigate: (selectedPlayer: TPlayer) => void;
+}) => {
   const createData = (player: TPlayer) => {
     return player;
   };
 
-  const tableColoumns = ["Name", "Type", "Points", "Rank", "Age"];
+  const tableColoumns = ["Name", "Type", "Points", "Rank", "Age", "Action"];
 
   const rows = playerList?.map((p) => createData(p));
 
@@ -51,6 +58,15 @@ export const PlayerListComp = ({ playerList }: { playerList: TPlayer[] }) => {
                   <TableCell align="center">{row.points}</TableCell>
                   <TableCell align="center">{row.rank}</TableCell>
                   <TableCell align="center">{row.dob}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() => {
+                        onNavigate(row);
+                      }}
+                    >
+                      View Details
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

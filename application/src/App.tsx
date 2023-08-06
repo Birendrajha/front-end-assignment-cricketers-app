@@ -6,7 +6,8 @@ import { TMayBe, TPlayer } from "./services";
 import { Typography, Box } from "@mui/material";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { PlayerDetails } from "./components/playerDetailComp";
+import { useNavigate } from "react-router-dom";
 function App() {
   const {
     playerList,
@@ -16,9 +17,21 @@ function App() {
     setSelectedFilter,
     _getFilteredPlayersList,
     resetFilter,
+    selectedPlayer,
+    setSelectedPlayer,
   } = usePlayersHooks();
 
   console.log(playerList);
+  const navigate = useNavigate();
+  const onNavigate = (p: TPlayer) => {
+    setSelectedPlayer(p);
+    navigate("/playerDetails");
+  };
+
+  const onNavigateBack = () => {
+    setSelectedPlayer(undefined);
+    navigate("/");
+  };
   return (
     <Box className="App" height="100vh">
       <HeaderComp
@@ -28,14 +41,25 @@ function App() {
         getFilteredPlayersList={_getFilteredPlayersList}
         resetFilter={resetFilter}
       />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PlayerListComp playerList={playerList} />}>
-            {/* <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} /> */}
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {/* <BrowserRouter> */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PlayerListComp playerList={playerList} onNavigate={onNavigate} />
+          }
+        ></Route>
+        <Route
+          path="/playerDetails"
+          element={
+            <PlayerDetails
+              player={selectedPlayer}
+              onNavigateBack={onNavigateBack}
+            />
+          }
+        ></Route>
+      </Routes>
+      {/* </BrowserRouter> */}
     </Box>
   );
 }

@@ -24,14 +24,6 @@ export enum Filter {
   WicketKeeper = "wicketKeeper",
 }
 
-// export interface Filter {
-//   All: "All";
-//   Batsman: "batsman";
-//   Allrounder: "allRounder";
-//   Bowler: "bowler";
-//   WicketKeeper: "wicketKeeper";
-// }
-
 const filter = [
   Filter.All,
   Filter.Batsman,

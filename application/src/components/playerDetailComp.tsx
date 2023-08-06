@@ -8,7 +8,22 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 
-export const PlayerDetails = ({ player }: { player: TPlayer }) => {
-  const { getPlayers } = usePlayersHooks();
-  return <Box></Box>;
+export const PlayerDetails = ({
+  player,
+  onNavigateBack,
+}: {
+  player: TPlayer | undefined;
+  onNavigateBack: () => void;
+}) => {
+  return (
+    <Box>
+      <Button
+        onClick={() => {
+          onNavigateBack();
+        }}
+      >
+        Back
+      </Button>
+    </Box>
+  );
 };
