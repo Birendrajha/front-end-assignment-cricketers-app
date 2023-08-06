@@ -1,34 +1,41 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { PlayerListComp } from "./components";
+import { PlayerListComp, HeaderComp } from "./components";
 import { usePlayersHooks } from "./customHooks";
 import { TMayBe, TPlayer } from "./services";
 import { Typography, Box } from "@mui/material";
-function App() {
-  const { players, getPlayers } = usePlayersHooks();
-  const [playerList, setPlayerList] = useState<TPlayer[]>([]);
-  const _getPlayers = async () => {
-    const skip = 0;
-    const playersList = await getPlayers(skip);
-    if (playersList?.length > 0) {
-      return playersList as TPlayer[];
-    } else return [];
-    //return Promise.resolve(playersList);
-  };
-  useEffect(() => {
-    const getList = async () => {
-      const data = await _getPlayers();
-      setPlayerList([...data]);
-    };
-    getList();
-  }, []);
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+function App() {
+  const {
+    playerList,
+    getPlayers,
+    onChangeSearchText,
+    selectedFilter,
+    setSelectedFilter,
+    _getFilteredPlayersList,
+    resetFilter,
+  } = usePlayersHooks();
+
+  console.log(playerList);
   return (
-    <Box className="App">
-      <Typography variant="h1">
-        {Boolean(playerList) ? playerList[0]?.name : "Birendra"}
-        <PlayerListComp playerList={playerList} />
-      </Typography>
+    <Box className="App" height="100vh">
+      <HeaderComp
+        onChangeSearchText={onChangeSearchText}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        getFilteredPlayersList={_getFilteredPlayersList}
+        resetFilter={resetFilter}
+      />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PlayerListComp playerList={playerList} />}>
+            {/* <Route index element={<Home />} />
+          <Route path="blogs" element={<Blogs />} /> */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </Box>
   );
 }

@@ -7,35 +7,56 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 export const PlayerListComp = ({ playerList }: { playerList: TPlayer[] }) => {
+  const createData = (player: TPlayer) => {
+    return player;
+  };
+
+  const tableColoumns = ["Name", "Type", "Points", "Rank", "Age"];
+
+  const rows = playerList?.map((p) => createData(p));
+
   return (
     <Box>
-      {playerList?.length > 0
-        ? playerList?.map((player) => (
-            <Card sx={{ maxWidth: 345 }}>
-              <CardMedia
-                sx={{ height: 180 }}
-                image={player?.profilePic}
-                title="green iguana"
-              />
-              {/* <Avatar alt="Remy Sharp" src={player?.profilePic} /> */}
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {player?.name}
-                </Typography>
-                {/* <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography> */}
-              </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          ))
-        : null}
+      <Box display="flex" padding={2} height={550}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                {tableColoumns?.map((coulmn, id) => (
+                  <TableCell align={id === 0 ? "center" : "center"}>
+                    {coulmn}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.name}
+                  // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center" component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="center">{row.type}</TableCell>
+                  <TableCell align="center">{row.points}</TableCell>
+                  <TableCell align="center">{row.rank}</TableCell>
+                  <TableCell align="center">{row.dob}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </Box>
   );
 };
