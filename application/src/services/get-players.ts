@@ -1,6 +1,6 @@
 import data from "./players";
 
-export type TMayBe<T> = T | undefined;
+export type TMayBe<T> = T; //| undefined;
 
 export type TPlayer = {
   id?: TMayBe<string>;

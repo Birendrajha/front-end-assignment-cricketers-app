@@ -10,16 +10,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const PlayerListComp = ({
   playerList,
   onNavigate,
   getAge,
+  moreItemAvailable,
+  fetchMoreItem,
+  setSkip,
+  skip,
+  selectedSortBy,
 }: {
   playerList: TPlayer[];
   onNavigate: (selectedPlayer: TPlayer) => void;
   getAge: (dob: any) => number;
+  moreItemAvailable: boolean;
+  fetchMoreItem: (skip: number) => void;
+  skip: number;
+  setSkip: (x: number) => void;
+  selectedSortBy: string;
 }) => {
   const createData = (player: TPlayer) => {
     return player;
@@ -51,15 +61,16 @@ export const PlayerListComp = ({
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
+                <TableRow key={row.name}>
                   <TableCell align="center">
                     <Avatar src={row.profilePic} alt="pic" />
                   </TableCell>
 
-                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="left">
+                    <Link to={"/playerDetails"} onClick={() => onNavigate(row)}>
+                      {row.name}
+                    </Link>
+                  </TableCell>
                   <TableCell align="left">{row.type}</TableCell>
                   <TableCell align="left">{row.points}</TableCell>
                   <TableCell align="left">{row.rank}</TableCell>
@@ -75,6 +86,20 @@ export const PlayerListComp = ({
                   </TableCell>
                 </TableRow>
               ))}
+              {moreItemAvailable ? (
+                <TableRow>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() => {
+                        //fetchMoreItem(10);
+                        setSkip(skip + 10);
+                      }}
+                    >
+                      Load More
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ) : null}
             </TableBody>
           </Table>
         </TableContainer>

@@ -130,19 +130,21 @@ export const PlayerDetails = ({
           </Box>
         </Box>
       </Box>
-
+      <Box textAlign="center" paddingTop={2}>
+        <Typography variant="h5">You May Also Like</Typography>
+      </Box>
       {/* similar player rendering */}
       <Box
         id="similarPlayer"
         paddingY={2}
         display="flex"
         style={{ flexWrap: "wrap" }}
-        justifyContent="center"
+        justifyContent="space-between"
       >
         {similarPlayer?.map((player, idx) => (
-          <Box width={0.3} gap={6} paddingTop={4}>
+          <Box gap={4} paddingTop={4}>
             {" "}
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ width: 345 }}>
               <CardMedia
                 component="img"
                 alt="green iguana"
@@ -165,18 +167,10 @@ export const PlayerDetails = ({
                   </span>
                 </Typography>
                 <Typography textAlign="left" variant="h5">
-                  Dob :
+                  Points :
                   <span>
                     <Typography display="inline" variant="body1">
-                      {" "}
-                      {new Date(player?.dob as number).toLocaleDateString(
-                        "en-us",
-                        {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        }
-                      )}
+                      {player.points}
                     </Typography>
                   </span>
                 </Typography>

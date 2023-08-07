@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
 import SortIcon from "@mui/icons-material/Sort";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
 export enum Filter {
   All = "All",
   Batsman = "Batsman",
@@ -25,12 +26,12 @@ export enum Filter {
 }
 
 export enum SortBy {
-  Name = "Name",
   Rank = "Rank",
+  Name = "Name",
   Age = "Age",
 }
 
-const sortByArr = [SortBy.Name, SortBy.Age, SortBy.Rank];
+const sortByArr = [SortBy.Rank, SortBy.Name, SortBy.Age];
 
 const filterArr = [
   Filter.All,
@@ -44,31 +45,30 @@ export const HeaderComp = ({
   onChangeSearchText,
   selectedFilter,
   setSelectedFilter,
-  getFilteredPlayersList,
   resetFilter,
   selectedSortBy,
   setSelectedSortBy,
   resetSortBy,
-  getSortedList,
 }: {
   onChangeSearchText: (searchText: string) => void;
   selectedFilter: string;
   setSelectedFilter: (filter: string) => void;
-  getFilteredPlayersList: () => void;
+
   resetFilter: () => void;
   selectedSortBy: string;
   setSelectedSortBy: (sortBy: string) => void;
   resetSortBy: () => void;
-  getSortedList: () => void;
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>();
   const [anchorElForSort, setAnchorElForSort] =
     useState<null | SVGSVGElement>();
+
+  const [_sortBy, _setSortBy] = useState<string>(selectedSortBy);
+  const [_filterBy, _setFilterBy] = useState<string>(selectedFilter);
   const openMenuForFilter = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>
   ) => {
     setAnchorEl(e?.currentTarget);
-    //setShowMenu(true);
   };
   const openMenuForSort = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     setAnchorElForSort(e?.currentTarget);
@@ -84,7 +84,7 @@ export const HeaderComp = ({
   };
 
   const onFilter = () => {
-    getFilteredPlayersList();
+    setSelectedFilter(_filterBy);
     setAnchorEl(undefined);
   };
   const onresetFilter = () => {
@@ -93,7 +93,7 @@ export const HeaderComp = ({
   };
 
   const onSort = () => {
-    getSortedList();
+    setSelectedSortBy(_sortBy);
     setAnchorElForSort(undefined);
   };
   const onresetSort = () => {
@@ -121,12 +121,18 @@ export const HeaderComp = ({
           display="flex"
           alignItems="center"
           justifyContent="right"
+          style={{ cursor: "pointer" }}
         >
-          <SortIcon
+          <ImportExportIcon
             onClick={(e) => {
               openMenuForSort(e);
             }}
           />
+          <Box>
+            <Typography color="#fff" variant="body2">
+              {Boolean(selectedSortBy) ? `Sort By ${selectedSortBy}` : ""}
+            </Typography>
+          </Box>
         </Grid>
         <Grid
           item
@@ -135,7 +141,7 @@ export const HeaderComp = ({
           textAlign="right"
           display="flex"
           alignItems="center"
-          justifyContent="right"
+          justifyContent="center"
         >
           <TextField
             inputProps={{ style: { color: "#fff" } }}
@@ -158,12 +164,18 @@ export const HeaderComp = ({
           display="flex"
           alignItems="center"
           justifyContent="left"
+          style={{ cursor: "pointer" }}
         >
           <FilterListRoundedIcon
             onClick={(e) => {
               openMenuForFilter(e);
             }}
           />
+          <Box paddingX={2}>
+            <Typography color="#fff" variant="body2">
+              Filter
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
       <Typography></Typography>
@@ -180,9 +192,9 @@ export const HeaderComp = ({
           <Box padding={5}>
             <Typography>Filter By</Typography>
             <RadioGroup
-              value={selectedFilter}
+              value={_filterBy}
               onChange={(e, value: string) => {
-                setSelectedFilter(e.target.value);
+                _setFilterBy(e.target.value);
               }}
             >
               {filterArr.map((_key) => (
@@ -225,17 +237,17 @@ export const HeaderComp = ({
         keepMounted
         open={Boolean(anchorElForSort)}
         anchorEl={anchorElForSort}
-        id="player-filter-menu"
+        id="player-sort-menu"
         TransitionComponent={Fade}
         onClose={onClose}
       >
         <Box display="flex">
           <Box padding={5}>
-            <Typography>Filter By</Typography>
+            <Typography>Sort By</Typography>
             <RadioGroup
-              value={selectedFilter}
+              value={_sortBy}
               onChange={(e, value: string) => {
-                setSelectedFilter(e.target.value);
+                _setSortBy(e.target.value);
               }}
             >
               {sortByArr.map((_key) => (
@@ -254,7 +266,7 @@ export const HeaderComp = ({
             <Button
               color="secondary"
               onClick={() => {
-                onresetFilter();
+                onresetSort();
               }}
             >
               Reset
@@ -267,7 +279,7 @@ export const HeaderComp = ({
               }}
               color="primary"
             >
-              Filter
+              Sort
             </Button>
           </Box>
         </Box>
