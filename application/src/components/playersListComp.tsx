@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import { usePlayersHooks } from "../customHooks";
 import { TMayBe, TPlayer } from "../services";
 import { Typography, Box, Avatar } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,15 +15,17 @@ import { useNavigate } from "react-router-dom";
 export const PlayerListComp = ({
   playerList,
   onNavigate,
+  getAge,
 }: {
   playerList: TPlayer[];
   onNavigate: (selectedPlayer: TPlayer) => void;
+  getAge: (dob: any) => number;
 }) => {
   const createData = (player: TPlayer) => {
     return player;
   };
 
-  const tableColoumns = ["Name", "Type", "Points", "Rank", "Age", "Action"];
+  const tableColoumns = ["", "Name", "Type", "Points", "Rank", "Age", "Action"];
 
   const rows = playerList?.map((p) => createData(p));
 
@@ -38,11 +36,17 @@ export const PlayerListComp = ({
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                {tableColoumns?.map((coulmn, id) => (
-                  <TableCell align={id === 0 ? "center" : "center"}>
-                    {coulmn}
-                  </TableCell>
-                ))}
+                {tableColoumns?.map((coulmn, id) =>
+                  Boolean(coulmn) ? (
+                    <TableCell align="left">
+                      <Typography variant="h6">{coulmn}</Typography>
+                    </TableCell>
+                  ) : (
+                    <TableCell align="center">
+                      <Avatar src="https://media.istockphoto.com/id/519611160/vector/flag-of-india.jpg?s=170667a&w=0&k=20&c=OXKzCr54bPxtbVFf_rI2-1Mtpi9f1VOCuGcb10v20rU=" />
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -51,14 +55,16 @@ export const PlayerListComp = ({
                   key={row.name}
                   // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="center" component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="center">{row.type}</TableCell>
-                  <TableCell align="center">{row.points}</TableCell>
-                  <TableCell align="center">{row.rank}</TableCell>
-                  <TableCell align="center">{row.dob}</TableCell>
                   <TableCell align="center">
+                    <Avatar src={row.profilePic} alt="pic" />
+                  </TableCell>
+
+                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="left">{row.type}</TableCell>
+                  <TableCell align="left">{row.points}</TableCell>
+                  <TableCell align="left">{row.rank}</TableCell>
+                  <TableCell align="left">{getAge(row.dob)}</TableCell>
+                  <TableCell align="left">
                     <Button
                       onClick={() => {
                         onNavigate(row);

@@ -15,16 +15,24 @@ import {
   Button,
 } from "@mui/material";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
-
+import SortIcon from "@mui/icons-material/Sort";
 export enum Filter {
   All = "All",
-  Batsman = "batsman",
-  Allrounder = "allRounder",
-  Bowler = "bowler",
-  WicketKeeper = "wicketKeeper",
+  Batsman = "Batsman",
+  Allrounder = "AllRounder",
+  Bowler = "Bowler",
+  WicketKeeper = "WicketKeeper",
 }
 
-const filter = [
+export enum SortBy {
+  Name = "Name",
+  Rank = "Rank",
+  Age = "Age",
+}
+
+const sortByArr = [SortBy.Name, SortBy.Age, SortBy.Rank];
+
+const filterArr = [
   Filter.All,
   Filter.Batsman,
   Filter.Bowler,
@@ -38,20 +46,41 @@ export const HeaderComp = ({
   setSelectedFilter,
   getFilteredPlayersList,
   resetFilter,
+  selectedSortBy,
+  setSelectedSortBy,
+  resetSortBy,
+  getSortedList,
 }: {
   onChangeSearchText: (searchText: string) => void;
   selectedFilter: string;
   setSelectedFilter: (filter: string) => void;
   getFilteredPlayersList: () => void;
   resetFilter: () => void;
+  selectedSortBy: string;
+  setSelectedSortBy: (sortBy: string) => void;
+  resetSortBy: () => void;
+  getSortedList: () => void;
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>();
-  const openMenu = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const [anchorElForSort, setAnchorElForSort] =
+    useState<null | SVGSVGElement>();
+  const openMenuForFilter = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>
+  ) => {
     setAnchorEl(e?.currentTarget);
     //setShowMenu(true);
   };
+  const openMenuForSort = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    setAnchorElForSort(e?.currentTarget);
+  };
   const onClose = () => {
-    setAnchorEl(undefined);
+    if (Boolean(anchorEl)) {
+      setAnchorEl(undefined);
+    }
+
+    if (Boolean(anchorElForSort)) {
+      setAnchorElForSort(undefined);
+    }
   };
 
   const onFilter = () => {
@@ -62,10 +91,20 @@ export const HeaderComp = ({
     resetFilter();
     setAnchorEl(undefined);
   };
+
+  const onSort = () => {
+    getSortedList();
+    setAnchorElForSort(undefined);
+  };
+  const onresetSort = () => {
+    resetSortBy();
+    setAnchorElForSort(undefined);
+  };
+
   return (
     <Box padding={2}>
       <Grid container>
-        <Grid item sm={8} xs={12}>
+        <Grid item sm={6} xs={12}>
           <Typography
             textAlign="left"
             style={{ color: "antiquewhite" }}
@@ -73,6 +112,21 @@ export const HeaderComp = ({
           >
             Icc Ranking
           </Typography>
+        </Grid>
+        <Grid
+          item
+          sm={1}
+          xs={6}
+          textAlign="center"
+          display="flex"
+          alignItems="center"
+          justifyContent="right"
+        >
+          <SortIcon
+            onClick={(e) => {
+              openMenuForSort(e);
+            }}
+          />
         </Grid>
         <Grid
           item
@@ -84,8 +138,12 @@ export const HeaderComp = ({
           justifyContent="right"
         >
           <TextField
+            inputProps={{ style: { color: "#fff" } }}
+            color="primary"
             variant="outlined"
+            // variant="filled"
             label="Search"
+            //className={classes.root}
             size="small"
             onChange={(e) => {
               onChangeSearchText(e?.target?.value);
@@ -103,7 +161,7 @@ export const HeaderComp = ({
         >
           <FilterListRoundedIcon
             onClick={(e) => {
-              openMenu(e);
+              openMenuForFilter(e);
             }}
           />
         </Grid>
@@ -127,7 +185,7 @@ export const HeaderComp = ({
                 setSelectedFilter(e.target.value);
               }}
             >
-              {filter.map((_key) => (
+              {filterArr.map((_key) => (
                 <FormControlLabel
                   key={`${_key}-radio-option`}
                   value={_key}
@@ -153,6 +211,59 @@ export const HeaderComp = ({
             <Button
               onClick={() => {
                 onFilter();
+              }}
+              color="primary"
+            >
+              Filter
+            </Button>
+          </Box>
+        </Box>
+      </Menu>
+
+      <Menu
+        // style={{ marginRight: "100x" }}
+        keepMounted
+        open={Boolean(anchorElForSort)}
+        anchorEl={anchorElForSort}
+        id="player-filter-menu"
+        TransitionComponent={Fade}
+        onClose={onClose}
+      >
+        <Box display="flex">
+          <Box padding={5}>
+            <Typography>Filter By</Typography>
+            <RadioGroup
+              value={selectedFilter}
+              onChange={(e, value: string) => {
+                setSelectedFilter(e.target.value);
+              }}
+            >
+              {sortByArr.map((_key) => (
+                <FormControlLabel
+                  key={`${_key}-radio-option`}
+                  value={_key}
+                  control={<Radio />}
+                  label={_key}
+                />
+              ))}
+            </RadioGroup>
+          </Box>
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="left">
+            <Button
+              color="secondary"
+              onClick={() => {
+                onresetFilter();
+              }}
+            >
+              Reset
+            </Button>
+          </Box>
+          <Box display="flex" justifyContent="right">
+            <Button
+              onClick={() => {
+                onSort();
               }}
               color="primary"
             >

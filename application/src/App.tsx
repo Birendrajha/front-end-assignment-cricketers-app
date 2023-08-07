@@ -15,10 +15,17 @@ function App() {
     onChangeSearchText,
     selectedFilter,
     setSelectedFilter,
-    _getFilteredPlayersList,
+    getFilteredPlayersList,
     resetFilter,
     selectedPlayer,
     setSelectedPlayer,
+    getSimilarPlayer,
+    similarPlayer,
+    getAge,
+    selectedSortBy,
+    setSelectedSortBy,
+    resetSortBy,
+    getSortedList,
   } = usePlayersHooks();
 
   console.log(playerList);
@@ -33,28 +40,39 @@ function App() {
     navigate("/");
   };
   return (
-    <Box className="App" height="100vh">
+    <Box className="App">
       <HeaderComp
         onChangeSearchText={onChangeSearchText}
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
-        getFilteredPlayersList={_getFilteredPlayersList}
+        getFilteredPlayersList={getFilteredPlayersList}
         resetFilter={resetFilter}
+        selectedSortBy={selectedSortBy}
+        setSelectedSortBy={setSelectedSortBy}
+        resetSortBy={resetSortBy}
+        getSortedList={getSortedList}
       />
       {/* <BrowserRouter> */}
       <Routes>
         <Route
           path="/"
           element={
-            <PlayerListComp playerList={playerList} onNavigate={onNavigate} />
+            <PlayerListComp
+              playerList={playerList}
+              onNavigate={onNavigate}
+              getAge={getAge}
+            />
           }
         ></Route>
         <Route
           path="/playerDetails"
           element={
             <PlayerDetails
+              getAge={getAge}
+              onNavigate={onNavigate}
               player={selectedPlayer}
               onNavigateBack={onNavigateBack}
+              similarPlayer={similarPlayer}
             />
           }
         ></Route>
