@@ -12,14 +12,14 @@ import { Suspense, lazy } from "react";
 const PlayerListComp = lazy(() => {
   return Promise.all([
     import("./components/playersListComp"),
-    new Promise((resolve) => setTimeout(resolve, 2000)),
+    new Promise((resolve) => setTimeout(resolve, 500)),
   ]).then(([moduleExports]) => moduleExports);
 });
 
 const PlayerDetails = lazy(() => {
   return Promise.all([
     import("./components/playerDetailComp"),
-    new Promise((resolve) => setTimeout(resolve, 2000)),
+    new Promise((resolve) => setTimeout(resolve, 500)),
   ]).then(([moduleExports]) => moduleExports);
 });
 function App() {
@@ -56,18 +56,16 @@ function App() {
   };
   return (
     <Box className="App">
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeaderComp
-          onChangeSearchText={onChangeSearchText}
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-          resetFilter={resetFilter}
-          selectedSortBy={selectedSortBy}
-          setSelectedSortBy={setSelectedSortBy}
-          resetSortBy={resetSortBy}
-        />
-      </Suspense>
-      {/* <BrowserRouter> */}
+      <HeaderComp
+        onChangeSearchText={onChangeSearchText}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        resetFilter={resetFilter}
+        selectedSortBy={selectedSortBy}
+        setSelectedSortBy={setSelectedSortBy}
+        resetSortBy={resetSortBy}
+      />
+
       <Routes>
         <Route
           path="/"
@@ -86,8 +84,6 @@ function App() {
                 onNavigate={onNavigate}
                 getAge={getAge}
                 moreItemAvailable={moreItemAvailable}
-                fetchMoreItem={fetchMoreItem}
-                selectedSortBy={selectedSortBy}
               />
             </Suspense>
           }
