@@ -104,13 +104,19 @@ export const HeaderComp = ({
   return (
     <Box padding={2}>
       <Grid container>
-        <Grid item sm={6} xs={12}>
+        <Grid item sm={6} xs={12} display="flex">
+          <Box display="flex" alignItems="center">
+            <Avatar
+              src="https://resize.indiatv.in/resize/newbucket/1200_-/2021/04/icc-logo-1617872722.jpg"
+              alt="logo"
+            />
+          </Box>
           <Typography
             textAlign="left"
-            style={{ color: "antiquewhite" }}
+            style={{ color: "#631770" }}
             variant="h2"
           >
-            Icc Ranking
+            ICC Ranking
           </Typography>
         </Grid>
         <Grid
@@ -129,7 +135,7 @@ export const HeaderComp = ({
             }}
           />
           <Box>
-            <Typography color="#fff" variant="body2">
+            <Typography color="#631770" variant="body2">
               {Boolean(selectedSortBy) ? `Sort By ${selectedSortBy}` : ""}
             </Typography>
           </Box>
@@ -172,7 +178,7 @@ export const HeaderComp = ({
             }}
           />
           <Box paddingX={2}>
-            <Typography color="#fff" variant="body2">
+            <Typography color="#631770" variant="body2">
               Filter
             </Typography>
           </Box>
@@ -287,3 +293,5 @@ export const HeaderComp = ({
     </Box>
   );
 };
+
+export default HeaderComp;

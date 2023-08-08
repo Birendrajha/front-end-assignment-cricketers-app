@@ -21,9 +21,6 @@ export const PlayerDetails = ({
   onNavigate: (p: TPlayer) => void;
   getAge: (dob: any) => number;
 }) => {
-  console.log(player);
-  console.log(similarPlayer);
-
   return (
     <Box padding={2}>
       <Box
@@ -32,11 +29,7 @@ export const PlayerDetails = ({
         display="flex"
         borderRadius="5px"
         style={{
-          // background: "linear-gradient(#e66465, #9198e5);"
-          background: "#ffffcc",
-
-          // background:
-          //   "linear-gradient(to top left, #595959, rgb(255, 255, 255))",
+          background: "linear-gradient(to top left, #3399ff, #99e6ff)",
         }}
       >
         <Box padding={2} width={0.4} display="flex" justifyContent="left">
@@ -144,7 +137,7 @@ export const PlayerDetails = ({
         {similarPlayer?.map((player, idx) => (
           <Box gap={4} paddingTop={4}>
             {" "}
-            <Card sx={{ width: 345 }}>
+            <Card sx={{ width: 345 }} elevation={40}>
               <CardMedia
                 component="img"
                 alt="green iguana"
@@ -231,3 +224,4 @@ export const PlayerDetails = ({
     </Box>
   );
 };
+export default PlayerDetails;

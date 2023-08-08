@@ -12,7 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link, useNavigate } from "react-router-dom";
 
-export const PlayerListComp = ({
+const PlayerListComp = ({
   playerList,
   onNavigate,
   getAge,
@@ -107,3 +107,5 @@ export const PlayerListComp = ({
     </Box>
   );
 };
+
+export default PlayerListComp;
