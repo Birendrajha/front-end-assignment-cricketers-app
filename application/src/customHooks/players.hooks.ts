@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { TPlayer, TMayBe, players } from "../services";
+import { useEffect, useMemo, useState } from "react";
+import { TPlayer, players } from "../services";
 import { Filter, SortBy } from "../components/headerComp";
-//import { debounce } from "@mui/material";
 import debounce from "lodash.debounce";
 
 export type FinalPList = {
@@ -70,11 +69,11 @@ export const usePlayersHooks = () => {
       setSimilarPlayer(similarPlayer);
     }
   };
-  //To reset Filter
+  //To reset Filter Menu
   const resetFilter = () => {
     setSelectedFilter(Filter.All);
   };
-
+  // To get Age from dob
   const getAge = (dob: any) => {
     var today = new Date();
     var birthDate = new Date(dob);
@@ -85,7 +84,7 @@ export const usePlayersHooks = () => {
     }
     return age;
   };
-
+  //Reset sort By Menu
   const resetSortBy = () => {
     setSelectedSortBy(SortBy.Rank);
   };
