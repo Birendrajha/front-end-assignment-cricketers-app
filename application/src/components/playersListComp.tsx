@@ -17,19 +17,16 @@ const PlayerListComp = ({
   onNavigate,
   getAge,
   moreItemAvailable,
-  fetchMoreItem,
+
   setSkip,
   skip,
-  selectedSortBy,
 }: {
   playerList: TPlayer[];
   onNavigate: (selectedPlayer: TPlayer) => void;
   getAge: (dob: any) => number;
   moreItemAvailable: boolean;
-  fetchMoreItem: (skip: number) => void;
   skip: number;
   setSkip: (x: number) => void;
-  selectedSortBy: string;
 }) => {
   const createData = (player: TPlayer) => {
     return player;
@@ -41,7 +38,7 @@ const PlayerListComp = ({
 
   return (
     <Box>
-      <Box display="flex" padding={2} height={550}>
+      <Box display="flex" padding={2}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -91,7 +88,6 @@ const PlayerListComp = ({
                   <TableCell align="center">
                     <Button
                       onClick={() => {
-                        //fetchMoreItem(10);
                         setSkip(skip + 10);
                       }}
                     >
